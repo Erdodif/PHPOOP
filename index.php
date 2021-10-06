@@ -8,7 +8,8 @@ class Auto{
     private $maxSebesseg;
     private $fogyasztas;
     private $kepEleres;
-    public function __construct($nev,$hengerSzam=null,$hengerTerfogat=null,$teljesitmeny=null,$maxSebesseg=null,$fogyasztas=null,$kepEleres=null){
+    public function __construct($nev,$hengerSzam=null,$hengerTerfogat=null,$teljesitmeny=null,
+                                $maxSebesseg=null,$fogyasztas=null,$kepEleres=null){
         if($hengerSzam ===null){
             foreach($i as $nev){
                 $this->nev = $nev[0];
@@ -43,6 +44,29 @@ class Autok{
         }
         return $lista;
     } 
+    static private function toHTML($element,$content,$classes=null,$id=null){
+        if ($classes===null){
+            $classes = "";
+        }
+        else
+        {
+            $classes = " class='$classes'";
+        }
+        if ($id===null){
+            $id = "";
+        }
+        else
+        {
+            $id = " id='$id'";
+        }
+        return "<".$element.$classes.">".$content."</".$element.">";
+    }
+    static public function elem_P($content,$classes=null,$id=null){
+        return toHTML("p",$content,$classes,$id);
+    }
+    static public function elem_DIV($content,$classok=null,$id=null){
+        return toHTML("div",$content,$classes,$id);
+    }
 }
 ?>
 <!DOCTYPE html>
