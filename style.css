@@ -1,4 +1,8 @@
+html{
+    background: rosybrown;
+}
 body{
+    background: white;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     width: 80%;
     margin-inline: auto;
@@ -21,6 +25,8 @@ body{
     border-radius: 2em;
     background: rgb(253, 216, 189);
     width: 25em;
+    margin-block:unset;
+    margin-inline:1em;
 }
 .kartya > img{
     display: block;
@@ -46,4 +52,27 @@ body{
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+}
+h1,h2{
+    margin:unset;
+    padding-block: .5em;
+    text-align: center;
+}
+form{
+    width: min(100%,30rem);
+    margin-inline:auto;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+}
+form div{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 1em;
+    padding-block-end: 1em;
+    text-align: right;
+}
+form > input{
+    margin-inline: auto;
 }

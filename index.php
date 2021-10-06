@@ -1,4 +1,29 @@
 <?php
+$ujnev = htmlspecialchars($_POST["auto_nev"]??"",ENT_QUOTES);
+$ujhengerSzam = htmlspecialchars($_POST["auto_hengerSzam"]??"",ENT_QUOTES);
+$ujhengerTerfogat = htmlspecialchars($_POST["auto_hengerTerfogat"]??"",ENT_QUOTES);
+$ujteljesitmeny = htmlspecialchars($_POST["auto_teljesitmeny"]??"",ENT_QUOTES);
+$ujmaxSebesseg = htmlspecialchars($_POST["auto_maxSebesseg"]??"",ENT_QUOTES);
+$ujfogyasztas = htmlspecialchars($_POST["auto_fogyasztas"]??"",ENT_QUOTES);
+$ujkep = $_FILES["auto_kep"]["name"]?? "";
+$utvonal = "./feltoltesek/".$ujkep;/*
+$feltoltesrendben = true;
+var_dump($ujkep);
+if (isset($_POST["submit"])&&isset($_FILES["auto_kep"])&&!file_exists($utvonal)){
+    move_uploaded_file($_FILES["auto_kep"]["name"],$utvonal);
+    $felhasznaloiAutok = file_get_contents("feltoltesek/autok.json");
+    $templista = json_decode($felhasznaloiAutok);
+    $autoka = new Auto(
+        $ujnev,$ujhengerSzam,
+        $ujhengerTerfogat,$ujteljesitmeny,
+        $ujmaxSebesseg,$ujteljesitmeny,$utvonal
+    );
+    array_push($templista,$autoka);
+    var_dump($templista);
+    var_dump($autoka);
+    file_put_contents("feltoltesek/autok.json",json_encode($templista));
+}
+*/
 class Auto{
     public $nev;
     public $hengerSzam;
@@ -31,9 +56,9 @@ class Auto{
 }
 class Autok{
     static private $autok = null;
-    static public function getAutok(){
+    static public function getAutok($eleres){
         if (self::$autok === null){
-            $string = file_get_contents("./autok.json");
+            $string = file_get_contents($eleres);
             $tartalom = json_decode($string,true);
             self::$autok = [];
             foreach ($tartalom as &$value){
@@ -142,8 +167,44 @@ class Autok{
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <h1>
+        Autós Kártyák
+    </h1>
+    <form method="POST">
+        <div>
+            <label for="auto_nev">Autó neve: </label>
+            <input type="text" id="auto_nev" name="auto_nev">
+        </div>
+        <div>
+            <label for="auto_hengerSzam">Hengerek Száma:</label>
+            <input type="text" id="auto_hengerSzam" name="auto_hengerSzam">
+        </div>
+        <div>
+            <label for="auto_hengerTerfogat">Hegerek Térfogata:</label>
+            <input type="text" id="auto_hengerTerfogat" name="auto_hengerTerfogat">
+        </div>
+        <div>
+            <label for="auto_teljesitmeny">Teljesítmény:</label>
+            <input type="text" id="auto_teljesitmeny" name="auto_teljesitmeny">
+        </div>
+        <div>
+            <label for="auto_maxSebesseg">Maximális Sebesség:</label>
+            <input type="text" id="auto_maxSebesseg" name="auto_maxSebesseg">
+        </div>
+        <div>
+            <label for="auto_fogyasztas">Átlag fogyasztás:</label>
+            <input type="text" id="auto_fogyasztas" name="auto_fogyasztas">
+        </div>
+        <div>
+            <label for="auto_kep">Kép:</label>
+            <input type="file" name="auto_kep" id="auto_kep">
+        </div>
+        <input type="submit" value="Hozzáad" name="submit">
+    </form>
+    <h2>Kártyáim</h2>
     <div class="pakli">
-        <?php echo Autok::getAutok(); ?>
+        <?php echo Autok::getAutok("./autok.json"); ?>
     </div>
+    <?php echo $ujkep;?>
 </body>
 </html>
