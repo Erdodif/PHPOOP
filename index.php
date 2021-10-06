@@ -1,25 +1,22 @@
 <?php
-$adatok = require "autok.json";
 class Auto{
-    private $nev;
-    private $hengerSzam;
-    private $hengerTerfogat;
-    private $teljesitmeny;
-    private $maxSebesseg;
-    private $fogyasztas;
-    private $kepEleres;
+    public $nev;
+    public $hengerSzam;
+    public $hengerTerfogat;
+    public $teljesitmeny;
+    public $maxSebesseg;
+    public $fogyasztas;
+    public $kepEleres;
     public function __construct($nev,$hengerSzam=null,$hengerTerfogat=null,$teljesitmeny=null,
                                 $maxSebesseg=null,$fogyasztas=null,$kepEleres=null){
-        if($hengerSzam ===null){
-            foreach($i as $nev){
-                $this->nev = $nev[0];
-                $this->hengerSzam = $hengerSzam[1];
-                $this->hengerTerfogat = $hengerTerfogat[2];
-                $this->teljesitmeny = $teljesitmeny[3];
-                $this->maxSebesseg = $maxSebesseg[4];
-                $this->fogyasztas = $fogyasztas[5];
-                $this->kepEleres = $kepEleres[6];
-            }
+        if($hengerSzam === null){
+            $this->nev = $nev["nev"];
+            $this->hengerSzam = $nev["hengerSzam"];
+            $this->hengerTerfogat = $nev["hengerTerfogat"];
+            $this->teljesitmeny = $nev["teljesitmeny"];
+            $this->maxSebesseg = $nev["maxSebesseg"];
+            $this->fogyasztas = $nev["fogyasztas"];
+            $this->kepEleres = $nev["kepEleres"];
         }
         else {
             $this->nev = $nev;
@@ -36,39 +33,102 @@ class Autok{
     static private $autok = null;
     static public function getAutok(){
         if (self::$autok === null){
-            $tartalom = json_decode(require "autok.json");
-            return var_dump($tartalom);
-            //a $tartalom integer
+            $string = file_get_contents("./autok.json");
+            $tartalom = json_decode($string,true);
             self::$autok = [];
-            for ($i = 0; $i < count($tartalom); $i++){
-                self::$autok->array_push(new Auto($tartalom[$i]));
+            foreach ($tartalom as &$value){
+                array_push(self::$autok,new Auto($value));
             }
         }
-        return self::$autok;
+        $ki = "";
+        foreach (self::$autok as $auto){
+            $ki .= self::autoKartya($auto);
+        }
+        return $ki;
     } 
 
     static private function toHTML($element,$content,$classes=null,$id=null){
-        if ($classes===null){
+        if ($classes === null){
             $classes = "";
         }
         else
         {
             $classes = " class='$classes'";
         }
-        if ($id===null){
+        if ($id === null){
             $id = "";
         }
         else
         {
             $id = " id='$id'";
         }
-        return "<".$element.$classes.">".$content."</".$element.">";
+        return "<".$element.$classes.$id.">".$content."</".$element.">";
+    }
+    static public function elem_IMG($src,$alt,$classes=null,$id=null){
+        if ($classes === null){
+            $classes = "";
+        }
+        else
+        {
+            $classes = " class='$classes'";
+        }
+        if ($id === null){
+            $id = "";
+        }
+        else
+        {
+            $id = " id='$id'";
+        }
+        return "<img ".$classes.$id."src='$src' alt='$alt'>";
     }
     static public function elem_P($content,$classes=null,$id=null){
-        return toHTML("p",$content,$classes,$id);
+        return self::toHTML("p",$content,$classes,$id);
     }
-    static public function elem_DIV($content,$classok=null,$id=null){
-        return toHTML("div",$content,$classes,$id);
+    static public function elem_DIV($content,$classes=null,$id=null){
+        return self::toHTML("div",$content,$classes,$id);
+    }
+    static public function autoKartya(Auto $auto,$id=null,$extraclass=null){
+        return self::elem_DIV(
+            self::elem_P(
+                $auto->nev
+            ,"kartyafej").
+            self::elem_IMG(
+                $auto->kepEleres,
+                $auto->nev
+            ).
+            self::elem_DIV(
+                self::elem_P(
+                    "Hengerszám: "
+                ,"kulcs").
+                self::elem_P(
+                    $auto->hengerSzam
+                ,"ertek").
+                self::elem_P(
+                    "Henger Térfogat: "
+                ,"kulcs").
+                self::elem_P(
+                    $auto->hengerTerfogat." cm<sup>3</sup>"
+                ,"ertek").
+                self::elem_P(
+                    "Teljesítmény: "
+                ,"kulcs").
+                self::elem_P(
+                    $auto->teljesitmeny." LE"
+                ,"ertek").
+                self::elem_P(
+                    "Maximális sebesség: "
+                ,"kulcs").
+                self::elem_P(
+                    $auto->maxSebesseg." km/h"
+                ,"ertek").
+                self::elem_P(
+                    "Átlag fogyasztás:"
+                ,"kulcs").
+                self::elem_P(
+                    $auto->fogyasztas." l"
+                ,"ertek")
+            ,"kartyatest")
+        ,"kartya".$extraclass,$id);
     }
 }
 ?>
@@ -78,9 +138,12 @@ class Autok{
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Autós kártyák</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <?php echo Autok::getAutok()?>
+    <div class="pakli">
+        <?php echo Autok::getAutok(); ?>
+    </div>
 </body>
 </html>

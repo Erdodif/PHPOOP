@@ -1,0 +1,49 @@
+body{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    width: 80%;
+    margin-inline: auto;
+}
+.kartyafej{
+    font-size: 1.2em;
+    font-weight: bold;
+    text-align: center;
+    background: coral;
+    padding-block:.5em;
+    margin:unset;
+    border-top-left-radius:1.5em;
+    border-top-right-radius:1.5em;
+}
+.kartya{
+    font-size: .7em;
+    user-select: none;
+    -webkit-user-select: none;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    border-radius: 2em;
+    background: rgb(253, 216, 189);
+    width: 25em;
+}
+.kartya > img{
+    display: block;
+    width: 100%;
+    margin-inline:auto;
+}
+.kartyatest{
+    display: grid;
+    font-size: 1.4em;
+    grid-template-columns: 2fr 1fr;
+    padding:1em;
+}
+.ertek{
+    text-align: center;
+}
+.kulcs, .ertek{
+    border-block-end: 1px dotted gray;
+    margin-block: .5em;
+    padding-block: .2em;
+}
+.pakli{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}

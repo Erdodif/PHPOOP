@@ -2,7 +2,7 @@
     {
         "nev":"Lancia 2000 Berlina",
         "hengerSzam":4,
-        "Hengerterfogat":1991,
+        "hengerTerfogat":1991,
         "teljesitmeny":115,
         "maxSebesseg":175,
         "fogyasztas":10.7,
@@ -11,7 +11,7 @@
     {
         "nev":"Alfa Romeo 2000 Spider Veloce",
         "hengerSzam":4,
-        "Hengerterfogat":1962,
+        "hengerTerfogat":1962,
         "teljesitmeny":133,
         "maxSebesseg":195,
         "fogyasztas":11.9,
