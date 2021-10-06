@@ -34,16 +34,19 @@ class Auto{
 }
 class Autok{
     static private $autok = null;
-    static public function mehet(){
-        if ($this->autok===null){
-            $this->autok = json_decode($adatok);
+    static public function getAutok(){
+        if (self::$autok === null){
+            $tartalom = json_decode(require "autok.json");
+            return var_dump($tartalom);
+            //a $tartalom integer
+            self::$autok = [];
+            for ($i = 0; $i < count($tartalom); $i++){
+                self::$autok->array_push(new Auto($tartalom[$i]));
+            }
         }
-        $lista = [];
-        foreach ($i as $autok){
-            $lista->array_push(new Auto($i));
-        }
-        return $lista;
+        return self::$autok;
     } 
+
     static private function toHTML($element,$content,$classes=null,$id=null){
         if ($classes===null){
             $classes = "";
@@ -78,6 +81,6 @@ class Autok{
     <title>Document</title>
 </head>
 <body>
-    <?php echo $adatok;?>
+    <?php echo Autok::getAutok()?>
 </body>
 </html>
