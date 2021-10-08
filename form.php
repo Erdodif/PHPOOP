@@ -44,8 +44,10 @@
     </form>
     <h2>Kártyáim</h2>
     <div class="pakli">
-        <?php echo Autok::getAutok("./autok.json"); ?>
-        <?php echo Autok::getAutok("./feltoltesek/autok.json");?>
+        <?php 
+            Autok::getAutok("./autok.json"); 
+            echo Autok::getAutok("./feltoltesek/autok.json");
+        ?>
     </div>
 </body>
 </html>

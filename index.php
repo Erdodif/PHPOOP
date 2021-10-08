@@ -7,7 +7,7 @@ $ujhengerTerfogat = htmlspecialchars($_POST["auto_hengerTerfogat"]??"",ENT_QUOTE
 $ujteljesitmeny = htmlspecialchars($_POST["auto_teljesitmeny"]??"",ENT_QUOTES);
 $ujmaxSebesseg = htmlspecialchars($_POST["auto_maxSebesseg"]??"",ENT_QUOTES);
 $ujfogyasztas = htmlspecialchars($_POST["auto_fogyasztas"]??"",ENT_QUOTES);
-$ujkep = faljkezelo();
+$ujkep = isset($_POST["submit"])?faljkezelo():"";
 if (isset($_POST["submit"]) && $ujkep!==null){
     $felhasznaloiAutok = file_get_contents("feltoltesek/autok.json");
     $templista = json_decode($felhasznaloiAutok);
