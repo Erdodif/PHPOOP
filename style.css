@@ -52,6 +52,7 @@ body{
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: center;
 }
 h1,h2{
     margin:unset;

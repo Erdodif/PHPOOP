@@ -5,10 +5,11 @@ $ujhengerTerfogat = htmlspecialchars($_POST["auto_hengerTerfogat"]??"",ENT_QUOTE
 $ujteljesitmeny = htmlspecialchars($_POST["auto_teljesitmeny"]??"",ENT_QUOTES);
 $ujmaxSebesseg = htmlspecialchars($_POST["auto_maxSebesseg"]??"",ENT_QUOTES);
 $ujfogyasztas = htmlspecialchars($_POST["auto_fogyasztas"]??"",ENT_QUOTES);
-$ujkep = $_FILES["auto_kep"]["name"]?? "";
+$ujkep = $_FILES["auto_kep"]?? "";
+$ujkepnev = $ujkep!==""?$ujkep["name"]:"";
 $utvonal = "./feltoltesek/".$ujkep;
 $feltoltesrendben = true;
-var_dump($ujkep);
+var_dump($ujkep);/*
 if (isset($_POST["submit"])&&isset($_FILES["auto_kep"])&&!file_exists($utvonal)){
     move_uploaded_file($_FILES["auto_kep"]["name"],$utvonal);
     $felhasznaloiAutok = file_get_contents("feltoltesek/autok.json");
@@ -22,6 +23,18 @@ if (isset($_POST["submit"])&&isset($_FILES["auto_kep"])&&!file_exists($utvonal))
     var_dump($templista);
     var_dump($autoka);
     file_put_contents("feltoltesek/autok.json",json_encode($templista));
+}*/
+if (is_uploaded_file($ujkepnev)){
+    echo "A php megkapta a fájlt<br>";
+}
+else {
+    echo "A php még csak meg sem kapta a fájlt<br>";
+}
+if ($ujkep!=="" && move_uploaded_file($_FILES["auto_kep"]["tmp_name"],$utvonal.basename($ujkep))){
+    echo "Kép feltöltve!!!";
+}
+else{
+    echo "Kép nincs feltöltve";
 }
 class Auto{
     public $nev;
@@ -195,7 +208,7 @@ class Autok{
         </div>
         <div>
             <label for="auto_kep">Kép:</label>
-            <input type="file" name="auto_kep" id="auto_kep">
+            <input type="file" name="auto_kep" id="auto_kep" <?php echo ($ujkep!==""?('value="'.$_FILES["auto_kep"]):"").'"'?>>
         </div>
         <input type="submit" value="Hozzáad" name="submit">
     </form>
