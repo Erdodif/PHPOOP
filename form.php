@@ -38,7 +38,7 @@
         </div>
         <div>
             <label for="auto_kep">Kép:</label>
-            <input type="file" name="auto_kep" id="auto_kep">
+            <input type="file" name="auto_kep" id="auto_kep" value="">
         </div>
         <input type="submit" value="Hozzáad" name="submit">
     </form>
@@ -46,6 +46,5 @@
     <div class="pakli">
         <?php echo Autok::getAutok("./autok.json"); ?>
     </div>
-    <?php echo $ujkep;?>
 </body>
 </html>
