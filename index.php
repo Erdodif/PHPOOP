@@ -1,12 +1,12 @@
 <?php
+require "fajlkezelo.php";
 $ujnev = htmlspecialchars($_POST["auto_nev"]??"",ENT_QUOTES);
 $ujhengerSzam = htmlspecialchars($_POST["auto_hengerSzam"]??"",ENT_QUOTES);
 $ujhengerTerfogat = htmlspecialchars($_POST["auto_hengerTerfogat"]??"",ENT_QUOTES);
 $ujteljesitmeny = htmlspecialchars($_POST["auto_teljesitmeny"]??"",ENT_QUOTES);
 $ujmaxSebesseg = htmlspecialchars($_POST["auto_maxSebesseg"]??"",ENT_QUOTES);
 $ujfogyasztas = htmlspecialchars($_POST["auto_fogyasztas"]??"",ENT_QUOTES);
-$ujkep = $_FILES["auto_kep"]?? "";
-$ujkepnev = $ujkep!==""?$ujkep["name"]:"";
+$ujkep = isset($_POST["submit"])?faljkezelo():"";
 $utvonal = "./feltoltesek/".$ujkep;
 $feltoltesrendben = true;
 var_dump($ujkep);/*
@@ -24,18 +24,6 @@ if (isset($_POST["submit"])&&isset($_FILES["auto_kep"])&&!file_exists($utvonal))
     var_dump($autoka);
     file_put_contents("feltoltesek/autok.json",json_encode($templista));
 }*/
-if (is_uploaded_file($ujkepnev)){
-    echo "A php megkapta a fájlt<br>";
-}
-else {
-    echo "A php még csak meg sem kapta a fájlt<br>";
-}
-if ($ujkep!=="" && move_uploaded_file($_FILES["auto_kep"]["tmp_name"],$utvonal.basename($ujkep))){
-    echo "Kép feltöltve!!!";
-}
-else{
-    echo "Kép nincs feltöltve";
-}
 class Auto{
     public $nev;
     public $hengerSzam;
@@ -167,55 +155,4 @@ class Autok{
         ,"kartya".$extraclass,$id);
     }
 }
-?>
-<!DOCTYPE html>
-<html lang="hu">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Autós kártyák</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <h1>
-        Autós Kártyák
-    </h1>
-    <form method="POST">
-        <div>
-            <label for="auto_nev">Autó neve: </label>
-            <input type="text" id="auto_nev" name="auto_nev" value="<?php echo $ujnev;?>">
-        </div>
-        <div>
-            <label for="auto_hengerSzam">Hengerek Száma:</label>
-            <input type="text" id="auto_hengerSzam" name="auto_hengerSzam" value="<?php echo $ujhengerSzam;?>">
-        </div>
-        <div>
-            <label for="auto_hengerTerfogat">Hegerek Térfogata:</label>
-            <input type="text" id="auto_hengerTerfogat" name="auto_hengerTerfogat" value="<?php echo $ujhengerTerfogat;?>">
-        </div>
-        <div>
-            <label for="auto_teljesitmeny">Teljesítmény:</label>
-            <input type="text" id="auto_teljesitmeny" name="auto_teljesitmeny" value="<?php echo $ujteljesitmeny;?>">
-        </div>
-        <div>
-            <label for="auto_maxSebesseg">Maximális Sebesség:</label>
-            <input type="text" id="auto_maxSebesseg" name="auto_maxSebesseg" value="<?php echo $ujmaxSebesseg;?>">
-        </div>
-        <div>
-            <label for="auto_fogyasztas">Átlag fogyasztás:</label>
-            <input type="text" id="auto_fogyasztas" name="auto_fogyasztas" value="<?php echo $ujfogyasztas;?>">
-        </div>
-        <div>
-            <label for="auto_kep">Kép:</label>
-            <input type="file" name="auto_kep" id="auto_kep" <?php echo ($ujkep!==""?('value="'.$_FILES["auto_kep"]):"").'"'?>>
-        </div>
-        <input type="submit" value="Hozzáad" name="submit">
-    </form>
-    <h2>Kártyáim</h2>
-    <div class="pakli">
-        <?php echo Autok::getAutok("./autok.json"); ?>
-    </div>
-    <?php echo $ujkep;?>
-</body>
-</html>
+require "form.php";
