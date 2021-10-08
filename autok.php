@@ -30,12 +30,11 @@ class Auto{
     }
 }
 class Autok{
-    static private $autok = null;
+    static private $autok = [];
     static public function getAutok($eleres){
-        if (self::$autok === null){
+        if ($eleres !==""){
             $string = file_get_contents($eleres);
             $tartalom = json_decode($string,true);
-            self::$autok = [];
             foreach ($tartalom as &$value){
                 array_push(self::$autok,new Auto($value));
             }
